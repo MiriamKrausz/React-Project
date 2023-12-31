@@ -1,10 +1,6 @@
 
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import { useEffect,useState } from 'react';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import { observer } from 'mobx-react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -17,33 +13,19 @@ import AddNewService from '../addNewService/addNewService';
 
 
 
-const ServicesTabs = (observer(() => {
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+const ServicesTabs = observer(() => {
+    const [value, setValue] = useState(0);
+    useEffect(() => {
+        ServicesStore.getServices();
+      }, []);
+    // const handleChange = (event, newValue) => {
+    //     setValue(newValue);
+    // };
     return (
         <>
-            {/* <Box
-        sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}> */}
-            {/* <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        sx={{ borderRight: 1, borderColor: 'divider' }}
-      >
-        {Service.serviceData.map((item, index) => (
-          <Tab label={item.name} {...a11yProps(index)} key={index} />
-        )
-        )}
-      </Tabs> */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'space-evenly' }}>
-                {ServicesStore.servicesList.map((item, index) => (
-                    // <TabPanel value={value} index={index} key={index}>
-                    <Card sx={{ maxWidth: 345 }} index={index} key={index}>
+                {ServicesStore.serviceArr.map((item, index) => (
+                    <Card sx={{ width: 345, height: 500,position:'relative'}} index={index} key={index} >
                         <CardActionArea>
                             <CardMedia
                                 component="img"
@@ -58,24 +40,23 @@ const ServicesTabs = (observer(() => {
                                 <Typography variant="body2" color="text.secondary">
                                     {item.description}
                                 </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    price: {item.price}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    duration: {item.duration}
+                                </Typography>
                             </CardContent>
                         </CardActionArea>
                         <CardActions>
-                            {/* <Button size="small" color="primary"  
-               onClick={() => setAddMeeting(true)
-                create a meeting 
-              </Button>
-                >*/}
                             {!GlobalStore.isLogin && <AddNewMeeting service={item} />}
                         </CardActions>
                     </Card>
-                    // </TabPanel>
                 ))}
                 {GlobalStore.isLogin && <AddNewService />}
             </div>
-            {/* </Box> */}
         </>
     );
 }
-))
+)
 export default ServicesTabs

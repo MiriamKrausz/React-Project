@@ -1,149 +1,218 @@
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import './EditDetails.css'
-import FileUploadIcon from '@mui/icons-material/FileUpload';
-import { styled } from '@mui/material/styles';
-import { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import * as React from 'react';
+
+import React, { useState, useEffect } from 'react';
+import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
 import Fab from '@mui/material/Fab';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import Swal from 'sweetalert2';
+import { TextField, Button, DialogActions, DialogTitle, Dialog } from '@mui/material';
 import BusinessStore from '../../stores/BusinessStore';
 import { observer } from 'mobx-react';
+const EditDetails = observer(() => {
+    const [localBussinessDetails, setLocalBussinessDetails] = useState(BusinessStore.business);
+    const [detailsData, setDetailsData] = useState({
+        // id: localBussinessDetails.id,
+        name: localBussinessDetails.name,
+        address: localBussinessDetails.address,
+        email: localBussinessDetails.email,
+        phone: localBussinessDetails.phone,
+        owner: localBussinessDetails.owner,
+        description: localBussinessDetails.description,
+        logo: localBussinessDetails.logo,
+    });
+const ensure = () => {
+    Swal.fire({
+        title: "Are you sure want to save the changes?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          Swal.fire("Your details have been successfully saved!!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
+}
 
+    useEffect(() => {
+        setDetailsData({
+            // id: localBussinessDetails.id,
+            name: detailsData.name,
+            address: detailsData.address,
+            email: detailsData.email,
+            phone: localBussinessDetails.phone,
+            owner: localBussinessDetails.owner,
+            description: localBussinessDetails.description,
+            logo: localBussinessDetails.logo,
+        });
+    }, [localBussinessDetails]);
 
-const EditDetails = (observer(() => {
-    const [localBussinessDetails, setBussinessDetails] = useState(BusinessStore.details);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setDetailsData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
 
     const handleSubmit = (e) => {
+        e.preventDefault();
+        ensure();
+        // console.log(detailsData.id);
+        console.log(detailsData.name);
+        console.log(detailsData.address);
+        console.log(detailsData.description);
+        console.log(detailsData.email);
+        console.log(detailsData.phone);
+        console.log(detailsData.owner);
+        console.log(detailsData.logo);
+        BusinessStore.updateBusiness(detailsData);
 
-        BusinessStore.saveChanges(localBussinessDetails)
-        console.log("save")
-    }
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-    });
+        // setDetailsData({
+        //     // id: '123456',
+        //     name: '',
+        //     address: '',
+        //     email: '',
+        //     phone: '',
+        //     owner: '',
+        //     description: '',
+        //     logo: '',
+        // });
 
-
-    const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-        '& .MuiDialogContent-root': {
-            padding: theme.spacing(2),
-        },
-        '& .MuiDialogActions-root': {
-            padding: theme.spacing(1),
-        },
-    }));
-
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
+        // setLocalBussinessDetails(e);
+        handleClose();
     };
 
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     return (
-
-        <>
-            <React.Fragment>
-                <Fab color="primary" aria-label="edit" onClick={handleClickOpen}>
+        <div>
+            {/* <Box sx={{ '& > :not(style)': { m: 1 } }}>
+                <Fab color="primary" aria-label="edit" 
+                onClick={handleClickOpen}>
                     <EditIcon />
                 </Fab>
-                <BootstrapDialog
-                    onClose={handleClose}
-                    aria-labelledby="customized-dialog-title"
-                    open={open}
-                >
-                    <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                        business's details
-                    </DialogTitle>
-                    <IconButton
-                        aria-label="close"
-                        onClick={handleClose}
-                        sx={{
-                            position: 'absolute',
-                            right: 8,
-                            top: 8,
-                            color: (theme) => theme.palette.grey[500],
-                        }}
-                    >
-                        <CloseIcon />
-                    </IconButton>
+            </Box> */}
+            <Box sx={{ '& > :not(style)': { m: 1 } }}>
+                <Fab color="primary" aria-label="edit" onClick={handleClickOpen} sx={{ position: 'absolute', top:100, right: 50 }}>
+                <Tooltip title="Edit details">
+                    <EditIcon />
+                    </Tooltip>
+                </Fab>
+            </Box>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                maxWidth="xs"
+                fullWidth
+                aria-labelledby="form-dialog-title"
+                PaperProps={{ sx: { p: 4 } }}
+            >
+                <DialogTitle>Business details</DialogTitle>
+                <form onSubmit={handleSubmit} className="form">
 
-                    <form className="formDiv" id='formForEdit' onSubmit={handleSubmit}>
-                        <TextField
-                            id="outlined-basic"
-                            label="business name"
-                            variant="outlined"
-                            defaultValue={localBussinessDetails.name}
-                            className="inputs"
-                        />
-                        <TextField
-                            id="outlined-basic"
-                            label="business description"
-                            variant="outlined"
-                            defaultValue={localBussinessDetails.description}
-                            className="inputs"
-                        />
 
-                        <TextField
-                            id="outlined-basic"
-                            label="business address"
-                            variant="outlined"
-                            defaultValue={localBussinessDetails.address}
-                            className="inputs"
-                        />  <TextField
-                            id="outlined-basic"
-                            label="business email"
-                            variant="outlined"
-                            defaultValue={localBussinessDetails.email}
-                            className="inputs"
-                            type='email'
-                        />
-                        <TextField
-                            id="outlined-basic"
-                            label="business phone"
-                            variant="outlined"
-                            defaultValue={localBussinessDetails.phone}
-                            className="inputs"
-                        />
-                        <TextField
-                            id="outlined-basic"
-                            label="business owner"
-                            variant="outlined"
-                            defaultValue={localBussinessDetails.owner}
-                            className="inputs"
-                        />
+                    <TextField
+                        id="name"
+                        label="Name"
+                        variant="outlined"
+                        className="inputs"
+                        name="name"
+                        defaultValue={localBussinessDetails.name}
+                        onChange={handleInputChange}
+                        sx={{ mb: 3 }}
+                        fullWidth
 
-                        <Button component="label" variant="contained" endIcon={<FileUploadIcon></FileUploadIcon>}>
-                            upload logo
-                            <VisuallyHiddenInput type="file" />
+                    />
+                    <TextField
+                        id="address"
+                        label="Address"
+                        variant="outlined"
+                        className="inputs"
+                        name="address"
+                        defaultValue={localBussinessDetails.address}
+                        onChange={handleInputChange}
+                        sx={{ mb: 3 }}
+                        fullWidth
 
+                    />
+                    <TextField
+                        id="email"
+                        label="Email"
+                        variant="outlined"
+                        className="inputs"
+                        name="email"
+                        defaultValue={localBussinessDetails.email}
+                        onChange={handleInputChange}
+                        sx={{ mb: 3 }}
+                        fullWidth
+
+                    />
+                    <TextField
+                        id="phone"
+                        label="Phone"
+                        variant="outlined"
+                        className="inputs"
+                        name="phone"
+                        defaultValue={localBussinessDetails.phone}
+                        onChange={handleInputChange}
+                        sx={{ mb: 3 }}
+                        fullWidth
+
+                    />
+
+                    <TextField
+                        id="owner"
+                        label="Owner"
+                        variant="outlined"
+                        className="inputs"
+                        name="owner"
+                        defaultValue={localBussinessDetails.owner}
+                        onChange={handleInputChange}
+                        sx={{ mb: 3 }}
+                        fullWidth
+
+                    />
+                    <TextField
+                        id="description"
+                        label="Description"
+                        variant="outlined"
+                        className="inputs"
+                        name="description"
+                        defaultValue={localBussinessDetails.description}
+                        onChange={handleInputChange}
+                        sx={{ mb: 3 }}
+                        fullWidth
+
+                    />
+                    <TextField
+                        id="logo"
+                        label="Description"
+                        variant="outlined"
+                        className="inputs"
+                        name="description"
+                        defaultValue={localBussinessDetails.logo}
+                        onChange={handleInputChange}
+                        sx={{ mb: 3 }}
+                        fullWidth
+
+                    />
+                    <DialogActions>
+                        <Button type="submit" variant="contained" color="primary">
+                            Save changes
                         </Button>
+                    </DialogActions>
+                </form>
+            </Dialog>
+        </div>
+    );
+});
 
-                    </form>
-
-
-                    <Button autoFocus onClick={handleClose}>
-                        Save changes
-                    </Button>
-
-                </BootstrapDialog>
-            </React.Fragment>
-            </>
-            
-            )
-        }))
 export default EditDetails
+
+
+

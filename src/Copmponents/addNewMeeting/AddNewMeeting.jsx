@@ -1,23 +1,32 @@
-import React, { useState,useEffect } from 'react';
+import { useState} from 'react';
 import { TextField, Button, DialogActions, DialogTitle, Dialog } from '@mui/material';
-// import { formatISO, parseISO } from 'date-fns';
-
 import './AddNewMeeting.css';
-import GlobalStore from '../../stores/GlobalStore';
+import Swal from 'sweetalert2';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import InsertInvitationRoundedIcon from '@mui/icons-material/InsertInvitationRounded';
 import MeetingsStore from '../../stores/MeetingsStore';
 import { observer } from 'mobx-react';
-const AddNewMeeting = (observer(({ service }) => {
+const AddNewMeeting = observer(({ service }) => {
 
     const [formData, setFormData] = useState({
+        id: service.id,
+        name: service.name,
         clientName: '',
         clientPhone: '',
         clientEmail: '',
         dateTime: null,
-    }, []);
+    });
+    const saved = () => {
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Meeting scheduled",
+            showConfirmButton: false,
+            timer: 1500
+          });
+    };
     const handleInputChange = (e) => {
         setFormData((prevData) => ({
             ...prevData,
@@ -32,36 +41,14 @@ const AddNewMeeting = (observer(({ service }) => {
         }));
         handleInputChange({ target: { name: 'dateTime', value: formattedDateTime } });
     };
-    // useEffect(() => {
-    //     console.log(formData.clientEmail);
-    //     console.log(formData.clientName);
-    //     console.log(formData.clientPhone);
-    //     console.log(formData.dateTime);
-    //     console.log(service.name);
-    //     console.log(service.id);
-    //     MeetingsStore.addMeeting(formData)
-    //     setFormData({
-    //         clientName: '',
-    //         clientPhone: '',
-    //         clientEmail: '',
-    //         dateTime: null,
-    //     });
-
-    //     handleClose();
-    // }, [formData, service]);
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData.clientEmail);
-        console.log(formData.clientName);
-        console.log(formData.clientPhone);
-        console.log(formData.dateTime);
-        console.log(service.name);
-        console.log(service.id);
-
+        saved();
         MeetingsStore.addMeeting(formData);
         setFormData((prevData) => ({
             ...prevData,
+            id: service.id,
+            name: service.name,
             clientName: '',
             clientPhone: '',
             clientEmail: '',
@@ -78,7 +65,8 @@ const AddNewMeeting = (observer(({ service }) => {
                 onClick={handleClickOpen}
                 variant="contained"
                 color="primary"
-                startIcon={<InsertInvitationRoundedIcon />}>
+                style={{ position: "absolute", bottom: "50px" }}
+                startIcon={<InsertInvitationRoundedIcon />}>                 
                 Make a meeting
             </Button>
             <Dialog
@@ -191,6 +179,6 @@ const AddNewMeeting = (observer(({ service }) => {
             </Dialog>
         </div>
     );
-}));
+});
 
 export default AddNewMeeting;

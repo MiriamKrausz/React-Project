@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
-import { Observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import GlobalStore from '../../stores/GlobalStore';
 
 import BusineessStore from '../../stores/BusinessStore';
-import './BusinessDetails.css'; // Assuming you have a separate CSS file for styling
+import './BusinessDetails.css'; 
 import EditDetails from '../editDetails/EditDetails';
 import EditIcon from '@mui/icons-material/Edit';
-const BusinessDetails = (observer) => {
+const BusinessDetails = observer(()=> {
   const [animate, setAnimate] = useState(false);
   const businessDetails = [
-    { label: 'Business Name:', value: BusineessStore.details.name },
-    { label: 'Address:', value: BusineessStore.details.address },
-    { label: 'Email:', value: BusineessStore.details.email },
-    { label: 'Phone:', value: BusineessStore.details.phone },
-    { label: 'Owner:', value: BusineessStore.details.owner },
-    { label: 'Description:', value: BusineessStore.details.description},
+    { label: 'Business Name:', value: BusineessStore.business.name },
+    { label: 'Address:', value: BusineessStore.business.address },
+    { label: 'Email:', value: BusineessStore.business.email },
+    { label: 'Phone:', value: BusineessStore.business.phone },
+    { label: 'Owner:', value: BusineessStore.business.owner },
+    { label: 'Description:', value: BusineessStore.business.description},
   ];
   useEffect(() => {
     setAnimate(true);
@@ -49,6 +49,6 @@ const BusinessDetails = (observer) => {
       </div>
     </div>
   );
-};
+});
 
 export default BusinessDetails;

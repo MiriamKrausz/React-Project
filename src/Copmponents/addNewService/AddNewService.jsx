@@ -1,69 +1,71 @@
+
 import React, { useState, useEffect } from 'react';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { TextField, Button, DialogActions, DialogTitle, Dialog } from '@mui/material';
-// import { formatISO, parseISO } from 'date-fns';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-// import GlobalStore from '../../stores/GlobalStore';
-// import Icon from '@mui/material/Icon';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import ServicesStore from '../../stores/ServicesStore';
 import { observer } from 'mobx-react';
-const AddNewService = (observer(() => {
-    const [formData, setFormData] = useState({
+import { styled } from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Swal from 'sweetalert2';
+const AddNewService = observer(() => {
+    const [count, setCount] = useState(0);
+    const [serviceData, setServiceData] = useState({
+        id: count,
         name: '',
         description: '',
         price: '',
-        imgService: ''
-    }, []);
+        duration: '',
+        imgService: '../../assets/images/אבחונים2.jpg'
+    });
+    // const VisuallyHiddenInput = styled('input')({
+    //     clip: 'rect(0 0 0 0)',
+    //     clipPath: 'inset(50%)',
+    //     height: 1,
+    //     overflow: 'hidden',
+    //     position: 'absolute',
+    //     bottom: 0,
+    //     left: 0,
+    //     whiteSpace: 'nowrap',
+    //     width: 1,
+    // });
     const handleInputChange = (e) => {
-        setFormData((prevData) => ({
+        setServiceData((prevData) => ({
             ...prevData,
             [e.target.name]: e.target.value,
         }));
     };
-    // const handleDateTimeChange = (dateTime) => {
-    //     const formattedDateTime = dateTime.format('YYYY-MM-DDTHH:mm:ss');
-    //     setFormData((prevData) => ({
-    //         ...prevData,
-    //         dateTime: formattedDateTime,
-    //     }));
-    //     handleInputChange({ target: { name: 'dateTime', value: formattedDateTime } });
-    // };
-    // useEffect(() => {
-    //     console.log(formData.clientEmail);
-    //     console.log(formData.clientName);
-    //     console.log(formData.clientPhone);
-    //     console.log(formData.dateTime);
-    //     console.log(service.name);
-    //     console.log(service.id);
-    //     MeetingsStore.addMeeting(formData)
-    //     setFormData({
-    //         clientName: '',
-    //         clientPhone: '',
-    //         clientEmail: '',
-    //         dateTime: null,
-    //     });
+    const added = () => {
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Service addede successfully",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    };
+    const handleInCreaseId = (i) => {
+        setFormService((prevService) => ({
+            ...prevService,
+            id: i,
+        }))
 
-    //     handleClose();
-    // }, [formData, service]);
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData.name);
-        console.log(formData.description);
-        console.log(formData.price);
-        console.log(formData.imgService);
-        // console.log(service.name);
-        // console.log(service.id);
-
-        ServicesStore.addService(formData);
-        setFormData((prevData) => ({
+        added(),
+            ServicesStore.addService(serviceData)
+        setServiceData((prevData) => ({
             ...prevData,
-            name: 'Sar',
-            description: 'hjuytdgfc',
-            price: '900',
-            imgService: 'yfdgcv',
+            id: count,
+            name: '',
+            description: '',
+            price: '',
+            duration: '',
+            imgService: ''
+
         }));
+        setCount((prevId) => prevId + 1);
         handleClose();
     };
     const [open, setOpen] = useState(false);
@@ -71,16 +73,12 @@ const AddNewService = (observer(() => {
     const handleClose = () => setOpen(false);
     return (
         <div>
-{/* <Button variant="outlined" href="#outlined-buttons" onClick={handleClickOpen}>
-<AddCircleIcon/>
-
-      </Button> */}
-      <Button
+            <Button
                 onClick={handleClickOpen}
                 variant="contained"
                 color="primary"
-                startIcon={<AddCircleIcon/>}>
-               Add a service
+                startIcon={<AddCircleIcon />}>
+                Add a service
             </Button>
             <Dialog
                 open={open}
@@ -90,106 +88,73 @@ const AddNewService = (observer(() => {
                 aria-labelledby="form-dialog-title"
                 PaperProps={{ sx: { p: 4 } }}
             >
-                <DialogTitle>Add a service</DialogTitle>
+                <DialogTitle>new service</DialogTitle>
                 <form onSubmit={handleSubmit} className="form">
                     {/* Service details */}
-                    {/* <TextField
-                        id="clientName_input"
-                        label="Client Name"
-                        variant="outlined"
-                        className="inputs"
-                        name="clientName"
-                        value={formData.clientName}
-                        onChange={handleInputChange}
-                        sx={{ mb: 3 }}
-                        fullWidth
-                        required
-                    /> */}
-                    {/* <TextField
-                        id="name_input"
+
+                    <TextField
+                        id="name"
                         label="Name"
                         variant="outlined"
                         className="inputs"
                         name="name"
-                        value={formData.name}
+                        value={serviceData.name}
                         onChange={handleInputChange}
                         sx={{ mb: 3 }}
                         fullWidth
-                        // required
+                        required
                     />
                     <TextField
-                        id="serviceDescription_input"
-                        label="Service Description"
+                        id="description"
+                        label="Description"
                         variant="outlined"
                         className="inputs"
-                        name="serviceDescription"
-                        value={formData.description}
+                        name="description"
+                        value={serviceData.description}
                         onChange={handleInputChange}
                         sx={{ mb: 3 }}
                         fullWidth
-                        // required
+                        required
                     />
-                   <TextField
-                        id="price_input"
-                        label="Price Service"
+                    <TextField
+                        id="price"
+                        label="Price"
                         variant="outlined"
                         className="inputs"
                         name="price"
-                        value={formData.price}
+                        value={serviceData.price}
                         onChange={handleInputChange}
                         sx={{ mb: 3 }}
                         fullWidth
-                        // required
-                    /> */}
-
-                    <TextField
-                        id="imgService_input"
-                        label="Img Service"
-                        variant="outlined"
-                        className="inputs"
-                        name="imgService"
-                        value={formData.imgService}
-                        onChange={handleInputChange}
-                        sx={{ mb: 3 }}
-                        fullWidth
-                        // required
+                        required
                     />
                     <TextField
-                        id="imgService_input"
-                        label="Img Service"
+                        id="Duration"
+                        label="Duration"
                         variant="outlined"
-                        className="inputs"
-                        name="imgService"
-                        value={formData.imgService}
+                        className="duration"
+                        name="duration"
+                        value={serviceData.duration}
                         onChange={handleInputChange}
                         sx={{ mb: 3 }}
                         fullWidth
-                        // required
-                    /><TextField
-                    id="imgService_input"
-                    label="Img Service"
-                    variant="outlined"
-                    className="inputs"
-                    name="imgService"
-                    value={formData.imgService}
-                    onChange={handleInputChange}
-                    sx={{ mb: 3 }}
-                    fullWidth
-                    // required
-                /><TextField
-                id="imgService_input"
-                label="Img Service"
-                variant="outlined"
-                className="inputs"
-                name="imgService"
-                value={formData.imgService}
-                onChange={handleInputChange}
-                sx={{ mb: 3 }}
-                fullWidth
-                // required
-            />
-  
-                    {/* Submit button */}
+                        required
+                    />
+                    {/* <TextField
+                        id="imgService"
+                        label="Image Service"
+                        variant="outlined"
+                        className="inputs"
+                        name="imgService"
+                        value={serviceData.imgService}
+                        onChange={handleInputChange}
+                        sx={{ mb: 3 }}
+                        fullWidth
+                    /> */}
+                    {/* <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} >
+                        Upload image
+                        <VisuallyHiddenInput VisuallyHiddenInput type="file" onChange={handleFileChange} />
+                    </Button> */}
                     <DialogActions>
                         <Button type="submit" variant="contained" color="primary">
                             Add
@@ -199,7 +164,7 @@ const AddNewService = (observer(() => {
             </Dialog>
         </div>
     );
-}));
+});
 
 export default AddNewService;
 

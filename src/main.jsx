@@ -7,7 +7,6 @@ import Admin from './Copmponents/Admin/Admin.jsx'
 import ServicesTabs from './Copmponents/servicesTabs/ServicesTabs.jsx'
 import Meetings from './Copmponents/meetings/Meetings'
 const router = createBrowserRouter([
-
   {
     path: "/",
     element: <Costumer />,
@@ -15,7 +14,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <Admin />,
+    element: <Admin/>,
     errorElement: <div>error</div>,
     children: [
       {
@@ -24,12 +23,12 @@ const router = createBrowserRouter([
       },
       {
         path: 'services',
-        // element:<ServicesTabs/>,
+        element:<ServicesTabs/>,
         errorElement: <div>error</div>
       },
       {
         path:'meetings',
-        // element:<Meetings/>,
+        element:<Meetings/>,
         errorElement: <div>error</div>
 
       }

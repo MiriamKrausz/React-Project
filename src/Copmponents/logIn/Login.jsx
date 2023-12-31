@@ -1,5 +1,4 @@
 
-
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -13,7 +12,16 @@ import axios from "axios";
 import GlobalStore from '../../stores/GlobalStore';
 import Swal from 'sweetalert2'
 import './Login.css'
-export default function Login() {
+export default function Login(){
+  const added = () => {
+    Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "You've loged in successfully",
+        showConfirmButton: false,
+        timer: 1500
+    });
+};
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -25,13 +33,8 @@ export default function Login() {
     axios.post(url, { name: data.get("user name"), password: data.get("password") })
       .then((response) => {
         GlobalStore.setIsLogin(true);
-        Swal.fire({
-          position: "center",
-          icon: 'success',
-          showConfirmButton: false,
-          title: "You've logged in successfully!",
-          timer: 1500
-        });
+        // console.log(success);
+        added();
       })
       .catch((error) => {
         console.log(error);

@@ -5,6 +5,7 @@ import Footer from '../footer/Footer';
 import ServicesTabs from '../servicesTabs/ServicesTabs';
 import './Costumer.css'
 import * as React from 'react';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import { useState } from 'react';
 import BusinessDetails from '../businessDetails/BusinessDetails';
 
@@ -13,7 +14,7 @@ export default function Costumer() {
     <>
       <Header />
       <BusinessDetails />
-           <div className='space'>our services</div>
+           <div className='space'>Our services<br/><ArrowCircleDownIcon fontSize='large'/></div>
       {<ServicesTabs/>}
       <Footer />
     </>
