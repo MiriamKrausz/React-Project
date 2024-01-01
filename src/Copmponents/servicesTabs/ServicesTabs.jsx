@@ -16,13 +16,13 @@ const ServicesTabs = observer(() => {
     }, []);
     return (
         <>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'space-evenly' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'space-evenly', padding: '1.5%', paddingBottom: '8%', paddingTop: '5%' }}>
                 {ServicesStore.serviceArr.map((item, index) => (
-                    <Card sx={{ width: 345, height:500, position: 'relative' }} index={index} key={index} >
+                    <Card sx={{ width: 345, height: 500, position: 'relative', backgroundColor: "#c5f5ff4d" }} key={index}>
                         <CardActionArea>
                             <CardMedia
                                 component="img"
-                                height="180"
+                                height="160"
                                 image={item.imgService}
                                 alt={item.name}
                             />
@@ -30,11 +30,12 @@ const ServicesTabs = observer(() => {
                                 <Typography gutterBottom variant="h5" component="div">
                                     {item.name}
                                 </Typography>
-                                <Typography variant="h6" color="text.secondary">
+                                <Typography variant="subtitle2">
                                     {item.description}
                                 </Typography>
-                                <Typography variant="h7" color="text.secondary">
+                                <Typography variant="subtitle1" >
                                     price: {item.price}
+                                    <br />
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
@@ -44,7 +45,9 @@ const ServicesTabs = observer(() => {
                     </Card>
                 ))}
                 {GlobalStore.isLogin && <AddNewService />}
+
             </div>
+
         </>
     );
 }

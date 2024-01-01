@@ -42,7 +42,6 @@ const AddNewService = observer(() => {
             ...prevService,
             id: i,
         }))
-
     }
     const handleSubmit = (e) => {
         e.preventDefault();

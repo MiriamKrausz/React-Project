@@ -11,13 +11,12 @@ import { observer } from 'mobx-react';
 const EditDetails = observer(() => {
     const [localBussinessDetails, setLocalBussinessDetails]=useState(BusinessStore.data);
     const [detailsData, setDetailsData] = useState({     
-        name: localBussinessDetails.name,
-        address: localBussinessDetails.address,
-        email: localBussinessDetails.email,
-        phone: localBussinessDetails.phone,
-        owner: localBussinessDetails.owner,
-        description: localBussinessDetails.description,
-        logo: localBussinessDetails.logo,
+        name: "Orientation Center - the occupational orientation center for the ultra-orthodox public in Jerusalem",
+        address:"15 Hzvi St. Jerusalem",
+        email: "kivun52@gmail.com",
+        phone: "02-6456222",
+        owner:  "Dan Levi",
+        description: "The 'Direction' center was established in 2014 in cooperation with the Ministry of Economy and the Jerusalem Municipality.",
     });
     const ensure = () => {
         console.log("ensure");
@@ -28,7 +27,6 @@ const EditDetails = observer(() => {
             confirmButtonText: "Save",
             denyButtonText: `Don't save`
         }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 Swal.fire("Your details have been successfully saved!!", "", "success");
             } else if (result.isDenied) {

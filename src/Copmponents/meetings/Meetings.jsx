@@ -35,11 +35,11 @@ function getColorClass(dateString) {
     const isToday = date.toDateString() === today.toDateString();
     const isThisWeek = date >= today && date <= new Date(today.getFullYear(), today.getMonth(), today.getDate() + 6);
     if (isToday) {
-        return 'red';
+        return '#ff6a6786';
     } else if (isThisWeek) {
-        return 'orange';
+        return 'rgba(255, 187, 0, 0.322)';
     } else {
-        return 'green';
+        return '#c7ff879f';
     }
 }
 function generateData(meeting) {
