@@ -11,17 +11,16 @@ import Container from "@mui/material/Container";
 import axios from "axios";
 import GlobalStore from '../../stores/GlobalStore';
 import Swal from 'sweetalert2'
-import './Login.css'
-export default function Login(){
+export default function Login() {
   const added = () => {
     Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "You've loged in successfully",
-        showConfirmButton: false,
-        timer: 1500
+      position: "center",
+      icon: "success",
+      title: "You've loged in successfully",
+      showConfirmButton: false,
+      timer: 1500
     });
-};
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -32,8 +31,8 @@ export default function Login(){
     const url = "http://localhost:8787/login";
     axios.post(url, { name: data.get("user name"), password: data.get("password") })
       .then((response) => {
+        localStorage.setItem("isLogin", true);
         GlobalStore.setIsLogin(true);
-        // console.log(success);
         added();
       })
       .catch((error) => {
@@ -112,16 +111,3 @@ export default function Login(){
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

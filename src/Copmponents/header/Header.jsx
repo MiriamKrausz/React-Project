@@ -1,67 +1,3 @@
-// import Button from '@mui/material/Button';
-// import React from 'react';
-// import './header.css';
-// import logo_image from '../../assets/images/save_logo.png';
-// import CallIcon from '@mui/icons-material/Call';
-// import businessStore from '../../stores/BusinessStore';
-// import LoginIcon from '@mui/icons-material/Login';
-// import Alert from '@mui/material/Alert';
-// import LogoutIcon from '@mui/icons-material/Logout';
-// import { observer } from "mobx-react";
-// import GlobalStore from '../../stores/GlobalStore'
-// import EditIcon from '@mui/icons-material/Edit';
-// import Fab from '@mui/material/Fab';
-// import EditDetails from '../editDetails/EditDetails';
-
-
-// const Header = (observer(() => {
-//     return (
-
-//         <>
-//             <header>
-//                 <div className='infoDiv'>
-//                     <div className="logo">
-//                         <img src={logo_image} />
-//                     </div>
-
-//                     <div className="business-details">
-//                         <h1>{businessStore.businessDetails.name}</h1>
-//                         <p>{businessStore.businessDetails.address} | {businessStore.businessDetails.email}</p>
-
-
-//                     </div>
-//                     {GlobalStore.isLogin &&
-//                         <EditDetails></EditDetails>
-//                     }
-//                 </div>
-
-
-//                 <div className='buttonsDiv'>
-//                     <Button variant="outlined"> {businessStore.businessDetails.phone} <CallIcon></CallIcon></Button>
-//                     {
-//                         !GlobalStore.isLogin ?
-//                             <Button variant="outlined" href='/admin'> login <LoginIcon /> </Button>
-//                             :
-//                             <Button variant="outlined" href='/' > logout <LogoutIcon /> </Button>
-//                     }
-
-
-
-//                 </div>
-
-
-
-//             </header>
-
-
-
-//         </>
-
-//     );
-
-
-// }))
-// export default Header
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -69,22 +5,17 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import logo2 from '../../assets/images/לוגו-כיוון-שקוף.png'
 import profile from '../../assets/images/אבחונים.jpg'
 import Badge from '@mui/material/Badge';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import { Button } from '@mui/material';
-import BusinessDetails from '../businessDetails/BusinessDetails';
 import './Header.css';
 import { observer } from "mobx-react"
 
@@ -118,7 +49,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
@@ -131,8 +61,6 @@ const pages = ['Blog', 'Our projects', 'About us'];
 const Header = (observer(() => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -157,7 +85,6 @@ const Header = (observer(() => {
     };
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
-            backgroundColor: '#00b4d9',
             color: '#44b700',
             boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
             '&::after': {
@@ -253,7 +180,6 @@ const Header = (observer(() => {
                     color="inherit"
                 >
                     <StyledBadge />
-                    {/* <Avatar /> */}
                 </IconButton>
                 <p>Profile</p>
             </MenuItem>
@@ -262,96 +188,92 @@ const Header = (observer(() => {
 
     return (
         <>
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" backgroundColor="#00b4d9">
-                <Toolbar>
-                    <Box>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static" backgroundColor="#00b4d9">
+                    <Toolbar>
+                        <Box>
 
-                        <Button   >
-                            <img id="imgLogo" src={logo2} alt="logo" />
-                        </Button>
-                    </Box>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, width: '80%' }}>
-                        {pages.map((page) => (
-                            <>
-                                <Button
-                                
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                >
-                                    {page}
-                                </Button>
-                            </>
-                        ))}
-                    </Box>
+                            <Button   >
+                                <img className="imgLogo" src={logo2} alt="logo" />
+                            </Button>
+                        </Box>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, width: '80%' }}>
+                            {pages.map((page) => (
+                                <>
+                                    <Button
 
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
+                                        key={page}
+                                        onClick={handleCloseNavMenu}
+                                        sx={{ my: 2, color: 'white', display: 'block' }}
+                                    >
+                                        {page}
+                                    </Button>
+                                </>
+                            ))}
+                        </Box>
 
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="error">
-                                <MailIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            aria-label="show 17 new notifications"
-                            color="inherit"
-                        >
-                            <Badge badgeContent={17} color="error">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            // edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            // aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <StyledBadge
-                                overlap="circular"
-                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                                variant="dot"
+                        <Search>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search…"
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </Search>
+
+                        <Box sx={{ flexGrow: 1 }} />
+                        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge badgeContent={4} color="error">
+                                    <MailIcon />
+                                </Badge>
+                            </IconButton>
+                            <IconButton
+                                size="large"
+                                aria-label="show 17 new notifications"
+                                color="inherit"
                             >
-                                <Avatar alt="Remy Sharp" src={profile} />
-                            </StyledBadge>
-                            {/* <AccountCircle /> */}
-                        </IconButton>
-                    </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-            {renderMobileMenu}
-            {renderMenu}
-        </Box>
-       
+                                <Badge badgeContent={17} color="error">
+                                    <NotificationsIcon />
+                                </Badge>
+                            </IconButton>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                                <StyledBadge
+                                    overlap="circular"
+                                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                    variant="dot"
+                                >
+                                    <Avatar alt="Remy Sharp" src={profile} />
+                                </StyledBadge>
+                            </IconButton>
+                        </Box>
+                        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="show more"
+                                aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                onClick={handleMobileMenuOpen}
+                                color="inherit"
+                            >
+                                <MoreIcon />
+                            </IconButton>
+                        </Box>
+                    </Toolbar>
+                </AppBar>
+                {renderMobileMenu}
+                {renderMenu}
+            </Box>
+
         </>
     );
 }));
 export default Header
-
 

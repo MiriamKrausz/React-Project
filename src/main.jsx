@@ -10,12 +10,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Costumer />,
-    errorElement: <div>error</div>,
+    errorElement: <div>Costumer not found!</div>,
   },
   {
     path: '/admin',
     element: <Admin/>,
-    errorElement: <div>error</div>,
+    errorElement: <div>Admin not found!</div>,
     children: [
       {
         path: '',
@@ -24,13 +24,12 @@ const router = createBrowserRouter([
       {
         path: 'services',
         element:<ServicesTabs/>,
-        errorElement: <div>error</div>
+        errorElement: <div>Services not found!</div>
       },
       {
         path:'meetings',
         element:<Meetings/>,
-        errorElement: <div>error</div>
-
+        errorElement: <div>Meetings not found!</div>
       }
     ]
   },

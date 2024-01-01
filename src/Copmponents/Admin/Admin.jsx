@@ -1,13 +1,17 @@
-
-import * as React from 'react';
+import { useEffect } from "react"
 import { observer } from "mobx-react"
 import BusinessDetails from '../businessDetails/BusinessDetails'
 import Footer from '../footer/Footer'
 import GlobalStore from '../../stores/GlobalStore'
-import Header from '../Header/Header'
 import BusinessAdmin from '../businessAdmin/BusinessAdmin';
 import Login from '../logIn/Login';
+import Header from '../header/Header';
 const Admin = observer(() => {
+  useEffect(() => {
+    if (localStorage.getItem("isLogin") === "true") {
+        GlobalStore.setIsLogin(true)
+    }  
+}, []);
   return (
     <>
       <Header />
@@ -19,9 +23,6 @@ const Admin = observer(() => {
           <BusinessAdmin />
         </>
       )}
-      {/* {
-        GlobalStore.isLogin && <Business />
-      } */}
       <Footer />
     </>
   )

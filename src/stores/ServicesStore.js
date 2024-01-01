@@ -3,27 +3,53 @@ import { observable, action, computed, makeObservable } from 'mobx';
 class ServiceStore {
     constructor() {
         makeObservable(this, {
-            // countId: observable,
-            // increaseCountId: action,
             getServices: action,
             serviceArr: observable,
             addService: action,
         })
     }
     serviceArr = []
-    service = {
+    service1 = {
         id: '1',
         name: 'Counseling sessions and guidance',
-        description: 'The purpose of the counseling and orientation meetings is to check with the applicant his desires and abilities and to build together with him a work plan to find the profession and employment suitable for him.',
+        description: 'The purpose of the counseling and orientation meetings is to check with the applicant his desires and abilities and to build.',
         price: '300',
-        duration:'60',
         imgService: '../src/assets/images/יעוץ.jpg'
     }
+    service2=
+    {
+        name: 'Workshops for the world of employment',
+        description: 'The workshops give the participants background on the job market they are applying for.',
+        price: '900',
+        imgService: '../src/assets/images/arrow.jpg'
+
+    }
+    service3=
+    {
+        name: 'diagnoses',
+        description: 'The occupational diagnosis is intended for applicants who are debating about a suitable field of occupation or a suitable profession.',
+        price: '250',
+        imgService: '../src/assets/images/השכלה.jpg'
+
+    }
     getServices=async()=>{
-        // console.log("getServices")
-        const response=await fetch("http://localhost:8787/service",{
+        await fetch("http://localhost:8787/service",{
             method:"post",
-            body:JSON.stringify(this.service),
+            body:JSON.stringify(this.service1),
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+        await fetch("http://localhost:8787/service",{
+            method:"post",
+            body:JSON.stringify(this.service2),
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+        await fetch("http://localhost:8787/service",{
+            method:"post",
+            body:JSON.stringify(this.service3),
             headers: {
                 "Content-Type": "application/json"
             },
@@ -34,7 +60,8 @@ class ServiceStore {
                 "Content-Type": "application/json"
             },  
         });
-        this.serviceArr=await response1.json();//ממלא את המערך המקומי כל עוד יש תגובה לבקשה (כל עוד יש שירותים)
+        this.serviceArr=await response1.json();
+        //ממלא את המערך המקומי כל עוד יש תגובה לבקשה (כל עוד יש שירותים)
     }
     addService=async(service)=>{
         console.log("addserv")

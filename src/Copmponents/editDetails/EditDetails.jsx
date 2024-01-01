@@ -9,9 +9,8 @@ import { TextField, Button, DialogActions, DialogTitle, Dialog } from '@mui/mate
 import BusinessStore from '../../stores/BusinessStore';
 import { observer } from 'mobx-react';
 const EditDetails = observer(() => {
-    const [localBussinessDetails, setLocalBussinessDetails] = useState(BusinessStore.business);
-    const [detailsData, setDetailsData] = useState({
-        // id: localBussinessDetails.id,
+    const [localBussinessDetails, setLocalBussinessDetails]=useState(BusinessStore.data);
+    const [detailsData, setDetailsData] = useState({     
         name: localBussinessDetails.name,
         address: localBussinessDetails.address,
         email: localBussinessDetails.email,
@@ -20,33 +19,32 @@ const EditDetails = observer(() => {
         description: localBussinessDetails.description,
         logo: localBussinessDetails.logo,
     });
-const ensure = () => {
-    Swal.fire({
-        title: "Are you sure want to save the changes?",
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: "Save",
-        denyButtonText: `Don't save`
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          Swal.fire("Your details have been successfully saved!!", "", "success");
-        } else if (result.isDenied) {
-          Swal.fire("Changes are not saved", "", "info");
-        }
-      });
-}
-
+    const ensure = () => {
+        console.log("ensure");
+        Swal.fire({
+            title: "Are you sure want to save the changes?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Save",
+            denyButtonText: `Don't save`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Swal.fire("Your details have been successfully saved!!", "", "success");
+            } else if (result.isDenied) {
+                Swal.fire("Changes are not saved", "", "info");
+            }
+        });
+    }
     useEffect(() => {
         setDetailsData({
-            // id: localBussinessDetails.id,
             name: detailsData.name,
             address: detailsData.address,
             email: detailsData.email,
-            phone: localBussinessDetails.phone,
-            owner: localBussinessDetails.owner,
-            description: localBussinessDetails.description,
-            logo: localBussinessDetails.logo,
+            phone: detailsData.phone,
+            owner: detailsData.owner,
+            description: detailsData.description,
+            logo: detailsData.logo,
         });
     }, [localBussinessDetails]);
 
@@ -57,11 +55,9 @@ const ensure = () => {
             [name]: value,
         }));
     };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         ensure();
-        // console.log(detailsData.id);
         console.log(detailsData.name);
         console.log(detailsData.address);
         console.log(detailsData.description);
@@ -69,20 +65,7 @@ const ensure = () => {
         console.log(detailsData.phone);
         console.log(detailsData.owner);
         console.log(detailsData.logo);
-        BusinessStore.updateBusiness(detailsData);
-
-        // setDetailsData({
-        //     // id: '123456',
-        //     name: '',
-        //     address: '',
-        //     email: '',
-        //     phone: '',
-        //     owner: '',
-        //     description: '',
-        //     logo: '',
-        // });
-
-        // setLocalBussinessDetails(e);
+        BusinessStore.setData(detailsData);
         handleClose();
     };
 
@@ -91,16 +74,10 @@ const ensure = () => {
     const handleClose = () => setOpen(false);
     return (
         <div>
-            {/* <Box sx={{ '& > :not(style)': { m: 1 } }}>
-                <Fab color="primary" aria-label="edit" 
-                onClick={handleClickOpen}>
-                    <EditIcon />
-                </Fab>
-            </Box> */}
             <Box sx={{ '& > :not(style)': { m: 1 } }}>
-                <Fab color="primary" aria-label="edit" onClick={handleClickOpen} sx={{ position: 'absolute', top:100, right: 50 }}>
-                <Tooltip title="Edit details">
-                    <EditIcon />
+                <Fab color="primary" aria-label="edit" onClick={handleClickOpen} sx={{ position: 'absolute', top: 100, right: 50 }}>
+                    <Tooltip title="Edit details">
+                        <EditIcon />
                     </Tooltip>
                 </Fab>
             </Box>
@@ -115,14 +92,13 @@ const ensure = () => {
                 <DialogTitle>Business details</DialogTitle>
                 <form onSubmit={handleSubmit} className="form">
 
-
                     <TextField
                         id="name"
                         label="Name"
                         variant="outlined"
                         className="inputs"
                         name="name"
-                        defaultValue={localBussinessDetails.name}
+                        defaultValue={detailsData.name}
                         onChange={handleInputChange}
                         sx={{ mb: 3 }}
                         fullWidth
@@ -134,7 +110,7 @@ const ensure = () => {
                         variant="outlined"
                         className="inputs"
                         name="address"
-                        defaultValue={localBussinessDetails.address}
+                        defaultValue={detailsData.address}
                         onChange={handleInputChange}
                         sx={{ mb: 3 }}
                         fullWidth
@@ -146,7 +122,7 @@ const ensure = () => {
                         variant="outlined"
                         className="inputs"
                         name="email"
-                        defaultValue={localBussinessDetails.email}
+                        defaultValue={detailsData.email}
                         onChange={handleInputChange}
                         sx={{ mb: 3 }}
                         fullWidth
@@ -158,7 +134,7 @@ const ensure = () => {
                         variant="outlined"
                         className="inputs"
                         name="phone"
-                        defaultValue={localBussinessDetails.phone}
+                        defaultValue={detailsData.phone}
                         onChange={handleInputChange}
                         sx={{ mb: 3 }}
                         fullWidth
@@ -171,7 +147,7 @@ const ensure = () => {
                         variant="outlined"
                         className="inputs"
                         name="owner"
-                        defaultValue={localBussinessDetails.owner}
+                        defaultValue={detailsData.owner}
                         onChange={handleInputChange}
                         sx={{ mb: 3 }}
                         fullWidth
@@ -183,23 +159,10 @@ const ensure = () => {
                         variant="outlined"
                         className="inputs"
                         name="description"
-                        defaultValue={localBussinessDetails.description}
+                        defaultValue={detailsData.description}
                         onChange={handleInputChange}
                         sx={{ mb: 3 }}
                         fullWidth
-
-                    />
-                    <TextField
-                        id="logo"
-                        label="Description"
-                        variant="outlined"
-                        className="inputs"
-                        name="description"
-                        defaultValue={localBussinessDetails.logo}
-                        onChange={handleInputChange}
-                        sx={{ mb: 3 }}
-                        fullWidth
-
                     />
                     <DialogActions>
                         <Button type="submit" variant="contained" color="primary">

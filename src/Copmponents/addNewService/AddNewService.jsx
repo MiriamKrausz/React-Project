@@ -1,34 +1,27 @@
-
+import img1 from '../../assets/images/השכלה.jpg'
+import img2 from '../../assets/images/קורסים.jpg'
+import img3 from '../../assets/images/סדנאות.jpg'
+import img4 from '../../assets/images/אבחונים2.jpg'
+import img5 from '../../assets/images/אבחונים.jpg'
 import React, { useState, useEffect } from 'react';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { TextField, Button, DialogActions, DialogTitle, Dialog } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ServicesStore from '../../stores/ServicesStore';
 import { observer } from 'mobx-react';
-import { styled } from '@mui/material/styles';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
 import Swal from 'sweetalert2';
+import AddIcon from '@mui/icons-material/Add';
 const AddNewService = observer(() => {
     const [count, setCount] = useState(0);
+    const imgArr=[img1,img2,img3,img4,img5]
     const [serviceData, setServiceData] = useState({
         id: count,
         name: '',
         description: '',
         price: '',
-        duration: '',
-        imgService: '../../assets/images/אבחונים2.jpg'
+        imgService:imgArr[Math.floor(Math.random() * imgArr.length)]
     });
-    // const VisuallyHiddenInput = styled('input')({
-    //     clip: 'rect(0 0 0 0)',
-    //     clipPath: 'inset(50%)',
-    //     height: 1,
-    //     overflow: 'hidden',
-    //     position: 'absolute',
-    //     bottom: 0,
-    //     left: 0,
-    //     whiteSpace: 'nowrap',
-    //     width: 1,
-    // });
     const handleInputChange = (e) => {
         setServiceData((prevData) => ({
             ...prevData,
@@ -61,9 +54,7 @@ const AddNewService = observer(() => {
             name: '',
             description: '',
             price: '',
-            duration: '',
-            imgService: ''
-
+            imgService:imgArr[Math.floor(Math.random() * imgArr.length)]
         }));
         setCount((prevId) => prevId + 1);
         handleClose();
@@ -73,13 +64,13 @@ const AddNewService = observer(() => {
     const handleClose = () => setOpen(false);
     return (
         <div>
-            <Button
-                onClick={handleClickOpen}
-                variant="contained"
-                color="primary"
-                startIcon={<AddCircleIcon />}>
-                Add a service
-            </Button>
+            <Box sx={{ '& > :not(style)': { m: 1 } }}>
+                <Fab color="primary" aria-label="add" onClick={handleClickOpen} sx={{ position: 'absolute'  ,left: '15px'}}>
+                    <Tooltip title="Add new service">
+                        <AddIcon />
+                    </Tooltip>
+                </Fab>
+            </Box>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -88,10 +79,8 @@ const AddNewService = observer(() => {
                 aria-labelledby="form-dialog-title"
                 PaperProps={{ sx: { p: 4 } }}
             >
-                <DialogTitle>new service</DialogTitle>
+                <DialogTitle sx={{ textAlign: 'center' }}>new service</DialogTitle>
                 <form onSubmit={handleSubmit} className="form">
-                    {/* Service details */}
-
                     <TextField
                         id="name"
                         label="Name"
@@ -128,33 +117,6 @@ const AddNewService = observer(() => {
                         fullWidth
                         required
                     />
-                    <TextField
-                        id="Duration"
-                        label="Duration"
-                        variant="outlined"
-                        className="duration"
-                        name="duration"
-                        value={serviceData.duration}
-                        onChange={handleInputChange}
-                        sx={{ mb: 3 }}
-                        fullWidth
-                        required
-                    />
-                    {/* <TextField
-                        id="imgService"
-                        label="Image Service"
-                        variant="outlined"
-                        className="inputs"
-                        name="imgService"
-                        value={serviceData.imgService}
-                        onChange={handleInputChange}
-                        sx={{ mb: 3 }}
-                        fullWidth
-                    /> */}
-                    {/* <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} >
-                        Upload image
-                        <VisuallyHiddenInput VisuallyHiddenInput type="file" onChange={handleFileChange} />
-                    </Button> */}
                     <DialogActions>
                         <Button type="submit" variant="contained" color="primary">
                             Add
@@ -165,7 +127,6 @@ const AddNewService = observer(() => {
         </div>
     );
 });
-
 export default AddNewService;
 
 

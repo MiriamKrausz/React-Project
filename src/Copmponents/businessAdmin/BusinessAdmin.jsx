@@ -1,5 +1,4 @@
 
-// import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -51,16 +50,7 @@ const BusinessAdmin = observer(() => {
   return (
 
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        {/* <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Link to='./services'><Tab label="Services" {...a11yProps(0)} /></Link>
-          <Link to='./meetings'><Tab label="Meetings" {...a11yProps(1)} /></Link>
-          
-        </Tabs> */}
+      <Box sx={{ borderBottom: 1,borderColor: 'divider' }}>
         <Tabs
   value={value}
   onChange={handleChange}
@@ -88,5 +78,8 @@ const BusinessAdmin = observer(() => {
 })
 
 export default BusinessAdmin
+
+
+
 
 

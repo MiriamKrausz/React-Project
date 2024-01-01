@@ -1,7 +1,5 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import { TextField, Button, DialogActions, DialogTitle, Dialog } from '@mui/material';
-import './AddNewMeeting.css';
-import Swal from 'sweetalert2';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -9,7 +7,6 @@ import InsertInvitationRoundedIcon from '@mui/icons-material/InsertInvitationRou
 import MeetingsStore from '../../stores/MeetingsStore';
 import { observer } from 'mobx-react';
 const AddNewMeeting = observer(({ service }) => {
-
     const [formData, setFormData] = useState({
         id: service.id,
         name: service.name,
@@ -18,15 +15,6 @@ const AddNewMeeting = observer(({ service }) => {
         clientEmail: '',
         dateTime: null,
     });
-    const saved = () => {
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Meeting scheduled",
-            showConfirmButton: false,
-            timer: 1500
-          });
-    };
     const handleInputChange = (e) => {
         setFormData((prevData) => ({
             ...prevData,
@@ -43,7 +31,7 @@ const AddNewMeeting = observer(({ service }) => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        saved();
+
         MeetingsStore.addMeeting(formData);
         setFormData((prevData) => ({
             ...prevData,
@@ -65,8 +53,8 @@ const AddNewMeeting = observer(({ service }) => {
                 onClick={handleClickOpen}
                 variant="contained"
                 color="primary"
-                style={{ position: "absolute", bottom: "50px" }}
-                startIcon={<InsertInvitationRoundedIcon />}>                 
+                style={{ position: "absolute", bottom: "50px"}}
+                startIcon={<InsertInvitationRoundedIcon />}>
                 Make a meeting
             </Button>
             <Dialog
@@ -77,7 +65,7 @@ const AddNewMeeting = observer(({ service }) => {
                 aria-labelledby="form-dialog-title"
                 PaperProps={{ sx: { p: 4 } }}
             >
-                <DialogTitle>Make a meeting</DialogTitle>
+                <DialogTitle sx={{ textAlign: 'center' }}>Make a meeting</DialogTitle>
                 <form onSubmit={handleSubmit} className="form">
                     {/* Service details */}
                     <TextField
